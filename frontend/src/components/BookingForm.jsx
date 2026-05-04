@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import axios from 'axios'
+import useAuth from '../hooks/useAuth'
+import api from '../utils/api'
 
 const initialValues = {
   pickupArea: '',
@@ -9,6 +10,7 @@ const initialValues = {
 }
 
 const BookingForm = () => {
+  const { user } = useAuth()
   const [formData, setFormData] = useState(initialValues)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
@@ -27,9 +29,13 @@ const BookingForm = () => {
       setError('All booking fields are required.')
       return
     }
+    if (!user) {
+      setError('Please login first to submit a booking.')
+      return
+    }
 
     try {
-      await axios.post('http://localhost:5000/api/booking', formData)
+      await api.post('/booking', { ...formData, userId: user.id })
       setMessage('Cab booking request sent successfully.')
       setFormData(initialValues)
     } catch (requestError) {
