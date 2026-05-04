@@ -2,7 +2,9 @@ const Booking = require('../models/Booking')
 
 const createBooking = async (req, res) => {
   try {
-    const { userId, pickupArea, dropArea, date, time } = req.body
+    const { userId: bodyUserId, pickupArea, dropArea, date, time } = req.body
+    const userId = req.user?.id || bodyUserId
+
     if (!userId || !pickupArea || !dropArea || !date || !time) {
       return res.status(400).json({ message: 'All booking fields are required' })
     }
