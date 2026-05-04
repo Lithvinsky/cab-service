@@ -129,3 +129,13 @@ input {
   padding: 0.65rem 0.75rem;
   font: inherit;
 }
+
+.error-text {
+  color: #b00020;
+  margin: 0;
+}
+
+.success-text {
+  color: #2a7d2e;
+  margin: 0;
+}
