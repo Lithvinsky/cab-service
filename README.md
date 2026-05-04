@@ -1,103 +1,84 @@
-# Corporate Cab Booking
+# CabConnect - MERN Cab Booking App
 
-Production-oriented full-stack app for internal employee cab booking and transport-team administration.
+CabConnect is a MERN stack application for employee cab booking and admin-driven cab area management.
 
-## Structure
+## Tech Stack
 
-```
+- Frontend: React, React Router, Axios, Vite
+- Backend: Node.js, Express, Mongoose
+- Database: MongoDB
+- Auth: JWT + bcrypt
+
+## Project Structure
+
+```text
 cab-booking-app/
-├── client/     # React 18 + TypeScript + Vite, MUI, Redux Toolkit, Axios, Recharts
-├── server/     # Express + TypeScript + MongoDB (Mongoose)
+├── frontend/
+│   ├── public/assets/branding/
+│   └── src/{components,pages,context,hooks,utils,assets}
+├── backend/
+│   └── src/{config,controllers,models,routes,middleware}
 └── README.md
 ```
 
 ## Features
 
-- **Employees:** register (corporate email only), login, book cabs by date/time slot/route, list and cancel bookings (cutoff before service day).
-- **Admins:** CRUD cabs, drivers, routes; view/filter all bookings; reassign bookings to another cab; analytics (bookings per day, utilization per cab, cancellations).
-- **Allocation:** On booking, system assigns an active cab on the same route with free capacity for that date/slot; otherwise booking stays `PENDING` until an admin reassigns.
+- Employee signup/login and JWT auth
+- Instant cab booking form with validation
+- Booking history endpoint for user
+- Admin area creation endpoint
+- Area list displayed on the home page
 
-## Prerequisites
+## Branding Assets
 
-- Node.js 18+
-- MongoDB 6+
+Generated in `frontend/public/assets/branding/`:
 
-## Quick start
+- `logo.svg`
+- `favicon.svg` (32x32)
+- `hero-map.svg`
 
-### 1. Server
+## API Endpoints
+
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `GET /api/areas`
+- `POST /api/areas` (admin token required)
+- `POST /api/booking` (auth required)
+- `GET /api/booking/user/:id` (auth required)
+
+## Installation
+
+### 1) Backend
 
 ```bash
-cd server
+cd backend
 cp .env.example .env
-# Edit .env: MONGO_URI, JWT_SECRET (and CORPORATE_EMAIL_DOMAIN if not using company.com)
 npm install
-npm run seed    # creates admin@company.com, alice, bob, sample fleet + bookings (Password123!)
-npm run dev     # http://localhost:4000
+npm start
 ```
 
-### 2. Client
+Default backend URL: `http://localhost:5000`
+
+### 2) Frontend
 
 ```bash
-cd client
+cd frontend
 npm install
-npm run dev     # http://localhost:5173 — proxies /api to :4000
+npm run dev
 ```
 
-Open http://localhost:5173 — log in with seed users or register a new **employee** (`*@<CORPORATE_EMAIL_DOMAIN>`).
+Default frontend URL: `http://localhost:5173`
 
-## Environment variables
+## Screenshots
 
-### `server/.env`
+Add screenshots in your repo and update these links:
 
-| Variable | Description |
-|----------|-------------|
-| `MONGO_URI` | Mongo connection string |
-| `JWT_SECRET` | Strong secret for JWT |
-| `JWT_EXPIRES_IN` | Optional, default `7d` |
-| `PORT` | Optional, default `4000` |
-| `CORPORATE_EMAIL_DOMAIN` | Signups must use `*@domain` (default `company.com`) |
-| `CLIENT_ORIGIN` | CORS origin(s), comma-separated (default `http://localhost:5173`) |
-| `CANCEL_CUTOFF_HOURS_BEFORE_DAY` | Employee cancel window (hours before midnight of trip day), default `2` |
+- Home page: `docs/screenshots/home.png`
+- Booking form: `docs/screenshots/booking.png`
+- Login page: `docs/screenshots/login.png`
+- Admin page: `docs/screenshots/admin.png`
 
-### `client/.env` (production)
+## Testing
 
-| Variable | Description |
-|----------|-------------|
-| `VITE_API_URL` | Public API base URL (no trailing slash). Empty in dev (use Vite proxy). |
-
-## API (summary)
-
-All JSON responses: `{ success, data?, message?, errors? }`.
-
-- `POST /api/auth/register` — employee only  
-- `POST /api/auth/login`  
-- `GET /api/auth/me` — Bearer JWT  
-- `GET /api/users` — admin, filters: `role`, `email`, `department`  
-- `GET|POST|PUT|DELETE` `/api/drivers`, `/api/routes` — read for any logged-in user; writes admin  
-- `GET|POST|PUT|DELETE` `/api/cabs` — same pattern  
-- `POST /api/bookings` — employee creates booking (auto allocation)  
-- `GET /api/bookings/my` — employee  
-- `GET /api/bookings` — admin, query: `from`, `to`, `route`, `cab`, `employee`, `status`  
-- `PUT /api/bookings/:id/cancel` — owner or admin  
-- `PUT /api/bookings/:id/reassign` — admin, body `{ cabId }`  
-- `GET /api/analytics/summary?from=&to=` — admin  
-
-## Scripts
-
-| Command | Location | Purpose |
-|---------|----------|---------|
-| `npm run dev` | server | `tsx watch` API |
-| `npm run build` / `npm start` | server | Compile / run `dist` |
-| `npm run seed` | server | Seed demo data |
-| `npm run dev` | client | Vite dev |
-| `npm run build` | client | Production bundle in `client/dist` |
-
-## Assumptions (defaults)
-
-- Time slots: `MORNING`, `EVENING` (fixed enum; extend in code if needed).
-- **Utilization %** (admin analytics): for each cab, `bookings / (number of distinct date+slot trips × capacity)` capped at 100%. Documented so product can refine later.
-- **Registration:** only `EMPLOYEE` via API; **admin** accounts are created via seed or direct DB.
-
-## License
-
-Use and modify per your organization.
+- Frontend build: `npm run build` (in `frontend`)
+- Backend module smoke test: load controllers/routes using `node -e`
