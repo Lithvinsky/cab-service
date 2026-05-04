@@ -1,6 +1,11 @@
 const HeroSection = () => {
   return (
     <section className="hero">
+      <img
+        className="hero-image"
+        src="/assets/branding/hero-map.svg"
+        alt="Abstract city map with highlighted cab route"
+      />
       <p className="hero-kicker">Internal Employee Cab Service</p>
       <h1>Book cabs faster across your office locations</h1>
       <p className="hero-text">

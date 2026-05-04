@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
   return (
     <header className="navbar">
-      <div className="navbar-brand">CabConnect</div>
+      <div className="navbar-brand">
+        <img src="/assets/branding/logo.svg" alt="CabConnect logo" />
+      </div>
       <nav>
         <Link to="/">Home</Link>
         <Link to="/book">Book</Link>
