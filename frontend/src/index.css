@@ -26,9 +26,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.9rem 1.1rem;
   background: var(--dark);
   color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .navbar-brand {
@@ -40,15 +41,56 @@ body {
   height: 36px;
 }
 
-.navbar nav {
+.navbar nav,
+.navbar-nav {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 0.85rem;
 }
 
-.navbar a {
+.nav-link {
   color: var(--white);
   text-decoration: none;
   font-size: 0.9rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.is-active {
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.navbar-user {
+  font-size: 0.85rem;
+  color: var(--secondary);
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(179, 136, 255, 0.55);
+  border-radius: 8px;
+}
+
+.btn-logout {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .container {
@@ -66,11 +108,12 @@ body {
   margin-bottom: 1.25rem;
 }
 
-.hero-image {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(26, 26, 26, 0.08);
+.hero {
+  background-image:
+    linear-gradient(160deg, rgba(243, 236, 255, 0.92) 0%, rgba(255, 255, 255, 0.88) 100%),
+    url('/assets/branding/hero-map.svg');
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-kicker {
@@ -108,6 +151,46 @@ h2 {
   color: var(--white);
 }
 
+.btn-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid rgba(124, 77, 255, 0.4);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.section-subtitle {
+  margin: -0.2rem 0 0.9rem;
+  color: #5f5f5f;
+}
+
+.home-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.highlight-card {
+  margin-bottom: 0;
+}
+
+.home-highlight-text {
+  margin: 0.45rem 0 0;
+  color: #4f4f4f;
+}
+
 .area-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -134,11 +217,13 @@ label {
   font-weight: 600;
 }
 
-input {
+input,
+select {
   border: 1px solid #d2d2d2;
   border-radius: 8px;
   padding: 0.65rem 0.75rem;
   font: inherit;
+  background: var(--white);
 }
 
 .error-text {
@@ -149,4 +234,275 @@ input {
 .success-text {
   color: #2a7d2e;
   margin: 0;
+}
+
+.auth-page {
+  max-width: 980px;
+  min-height: calc(100vh - 74px);
+  display: grid;
+  align-content: center;
+  gap: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.auth-alert {
+  margin-bottom: 0.6rem;
+}
+
+.auth-shell {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.auth-brand-panel {
+  margin-bottom: 0;
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 260px;
+  background-image:
+    linear-gradient(160deg, rgba(243, 236, 255, 0.92) 0%, rgba(255, 255, 255, 0.88) 100%),
+    url('/assets/branding/hero-map.svg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-logo {
+  display: block;
+  height: 34px;
+  margin: 0 0 0.7rem;
+}
+
+.auth-brand-title {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 1.55rem;
+}
+
+.auth-brand-text {
+  margin: 0 0 0.9rem;
+  color: #4f4f4f;
+}
+
+.auth-form {
+  width: 100%;
+  margin-bottom: 0;
+  box-shadow: none;
+  border: 1px solid #ece4ff;
+}
+
+.auth-form-heading h2 {
+  margin-bottom: 0.35rem;
+}
+
+.auth-subtitle {
+  margin: 0;
+  color: #5f5f5f;
+  font-size: 0.95rem;
+}
+
+.auth-footer {
+  border-top: 1px solid #ece4ff;
+  padding-top: 0.8rem;
+  color: #575757;
+  font-size: 0.9rem;
+}
+
+.auth-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 860px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand-title {
+    font-size: 1.3rem;
+  }
+}
+
+.admin-area-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.admin-area-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ede5ff;
+  border: 1px solid #d8c9ff;
+  border-radius: 10px;
+  padding: 0.75rem;
+}
+
+.admin-area-item span {
+  color: #4f4f4f;
+  font-size: 0.9rem;
+}
+
+.admin-booking-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.admin-booking-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #f3ecff;
+  border: 1px solid #d8c9ff;
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+.admin-booking-meta {
+  margin: 0.2rem 0 0;
+  color: #4f4f4f;
+  font-size: 0.88rem;
+}
+
+.admin-status-control {
+  min-width: 140px;
+}
+
+.admin-dashboard {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-header h2 {
+  margin-bottom: 0.4rem;
+}
+
+.admin-header p {
+  margin: 0;
+}
+
+.admin-header {
+  background-image:
+    linear-gradient(160deg, rgba(243, 236, 255, 0.92) 0%, rgba(255, 255, 255, 0.88) 100%),
+    url('/assets/branding/hero-map.svg');
+  background-size: cover;
+  background-position: center;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.8rem;
+}
+
+.stat-card {
+  margin-bottom: 0;
+  padding: 1.1rem 1.2rem;
+}
+
+.stat-label {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6a6a6a;
+  text-transform: uppercase;
+  letter-spacing: 0.04rem;
+}
+
+.stat-value {
+  margin: 0.35rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.admin-content-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.admin-content-grid .panel {
+  margin-bottom: 0;
+}
+
+.admin-booking-item {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .admin-booking-item {
+    flex-direction: column;
+  }
+
+  .admin-status-control {
+    width: 100%;
+  }
+}
+
+.app-footer {
+  margin-top: 1.5rem;
+  padding: 1.2rem 1rem 1.8rem;
+  border-top: 1px solid #ddd6f8;
+  background: #f8f5ff;
+}
+
+.app-footer-content {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.app-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.app-footer-title {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.app-footer-text {
+  margin: 0;
+  color: #4f4f4f;
+}
+
+.app-footer p {
+  margin: 0.2rem 0;
+  color: #4f4f4f;
+}
+
+.app-footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+.app-footer-copy {
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid #e6ddff;
+  font-size: 0.85rem;
+  color: #666;
 }

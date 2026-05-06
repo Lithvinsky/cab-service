@@ -6,7 +6,7 @@ const initialState = {
   password: '',
 }
 
-const AuthForm = ({ title, buttonText, onSubmit }) => {
+const AuthForm = ({ title, subtitle, buttonText, onSubmit, footer }) => {
   const [formData, setFormData] = useState(initialState)
   const [error, setError] = useState('')
 
@@ -26,13 +26,23 @@ const AuthForm = ({ title, buttonText, onSubmit }) => {
       await onSubmit(formData)
       setFormData(initialState)
     } catch (requestError) {
-      setError(requestError.response?.data?.message ?? 'Authentication failed')
+      const apiMessage = requestError.response?.data?.message
+      const isNetwork =
+        requestError.code === 'ERR_NETWORK' ||
+        requestError.message === 'Network Error'
+      const fallback = isNetwork
+        ? 'Cannot reach the server. Is the backend running on port 5000?'
+        : requestError.message || 'Authentication failed'
+      setError(apiMessage ?? fallback)
     }
   }
 
   return (
     <form className="panel form-grid auth-form" onSubmit={handleSubmit}>
-      <h2>{title}</h2>
+      <div className="auth-form-heading">
+        <h2>{title}</h2>
+        {subtitle && <p className="auth-subtitle">{subtitle}</p>}
+      </div>
       {title === 'Signup' && (
         <label>
           Full Name
@@ -69,6 +79,7 @@ const AuthForm = ({ title, buttonText, onSubmit }) => {
         {buttonText}
       </button>
       {error && <p className="error-text">{error}</p>}
+      {footer && <div className="auth-footer">{footer}</div>}
     </form>
   )
 }

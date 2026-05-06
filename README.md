@@ -16,8 +16,9 @@ cab-booking-app/
 ├── frontend/
 │   ├── public/assets/branding/
 │   └── src/{components,pages,context,hooks,utils,assets}
-├── backend/
+├── backend/          ← CabConnect API (use this with the frontend)
 │   └── src/{config,controllers,models,routes,middleware}
+├── server/           ← older TypeScript API (different routes / port; not used by CabConnect UI)
 └── README.md
 ```
 
@@ -48,7 +49,25 @@ Generated in `frontend/public/assets/branding/`:
 
 ## Installation
 
-### 1) Backend
+### Recommended: one command (backend + frontend)
+
+From the **`cab-booking-app`** folder (repo root for this app):
+
+```bash
+cd backend
+cp .env.example .env
+# Edit backend/.env if needed (MONGODB_URI, JWT_SECRET)
+npm install
+cd ..
+npm install
+npm run dev
+```
+
+This starts **Express on port 5000** and **Vite on 5173** together. Open **`http://localhost:5173`**.
+
+### Manual: two terminals
+
+**Terminal A — backend**
 
 ```bash
 cd backend
@@ -57,15 +76,26 @@ npm install
 npm start
 ```
 
-Default backend URL: `http://localhost:5000`
+Default API: `http://localhost:5000`
 
-### 2) Frontend
+**Terminal B — frontend**
 
 ```bash
 cd frontend
 npm install
 npm run dev
+# or: npm start
 ```
+
+Open **`http://localhost:5173`**. In dev, the browser calls **`/api` on Vite**, which **proxies** to **`http://127.0.0.1:5000`**. If you only start Vite without the backend, login will fail until `backend` is running.
+
+### Troubleshooting login
+
+1. **Start both processes** — from `cab-booking-app` run **`npm run dev`** (after `npm install` in this folder), or keep **`backend`** (`npm start`) and **`frontend`** (`npm run dev`) running at the same time.
+2. **Use the `backend/` API**, not `server/`. CabConnect uses **`POST /api/auth/login`** and **`backend/.env`** (`MONGODB_URI`).
+3. **Seed users**: `cd backend && npm run seed` — then **`alice@cabconnect.demo`** / **`Password123!`** (capital **P**, ends with **`!`**).
+4. After a successful login you are redirected **home** and the nav shows your **name** and **Log out**. If nothing changes, open DevTools → **Network** → `login` and check status (**200** vs **401** / failed).
+5. Restart **`backend`** after editing **`JWT_SECRET`** or **`MONGODB_URI`**.
 
 Default frontend URL: `http://localhost:5173`
 

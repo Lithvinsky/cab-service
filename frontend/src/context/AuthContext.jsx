@@ -1,7 +1,6 @@
-import { createContext, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import api from '../utils/api'
-
-export const AuthContext = createContext(null)
+import { AuthContext } from './AuthContextValue'
 
 const getStoredUser = () => {
   const raw = localStorage.getItem('cab_user')

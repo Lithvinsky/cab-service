@@ -4,7 +4,10 @@ const User = require('../models/User')
 
 const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body
+    const { name, password } = req.body
+    const email = String(req.body?.email ?? '')
+      .toLowerCase()
+      .trim()
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'All fields are required' })
     }
@@ -21,7 +24,11 @@ const signup = async (req, res) => {
       password: hashedPassword,
     })
 
-    return res.status(201).json({ id: user._id, email: user.email, role: user.role })
+    return res.status(201).json({
+      id: String(user._id),
+      email: user.email,
+      role: user.role,
+    })
   } catch (error) {
     return res.status(500).json({ message: 'Signup failed', error: error.message })
   }
@@ -29,7 +36,19 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body
+    const password = req.body?.password
+    const email = String(req.body?.email ?? '')
+      .toLowerCase()
+      .trim()
+
+    if (!email || password == null || String(password) === '') {
+      return res.status(400).json({ message: 'Email and password are required' })
+    }
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: 'Server misconfiguration: JWT_SECRET missing' })
+    }
+
     const user = await User.findOne({ email })
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -37,7 +56,7 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, role: user.role, name: user.name },
+      { id: String(user._id), role: user.role, name: user.name },
       process.env.JWT_SECRET,
       {
         expiresIn: '1d',
@@ -46,7 +65,12 @@ const login = async (req, res) => {
 
     return res.json({
       token,
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      user: {
+        id: String(user._id),
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     })
   } catch (error) {
     return res.status(500).json({ message: 'Login failed', error: error.message })

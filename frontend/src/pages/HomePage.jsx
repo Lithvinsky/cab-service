@@ -12,6 +12,7 @@ const mockAreas = [
 
 const HomePage = () => {
   const [areas, setAreas] = useState(mockAreas)
+  const [isUsingLiveAreas, setIsUsingLiveAreas] = useState(false)
 
   useEffect(() => {
     const fetchAreas = async () => {
@@ -19,9 +20,11 @@ const HomePage = () => {
         const response = await api.get('/areas')
         if (response.data.length > 0) {
           setAreas(response.data.map((item) => item.name))
+          setIsUsingLiveAreas(true)
         }
       } catch {
         setAreas(mockAreas)
+        setIsUsingLiveAreas(false)
       }
     }
     fetchAreas()
@@ -30,6 +33,19 @@ const HomePage = () => {
   return (
     <main className="container">
       <HeroSection />
+      <section className="home-highlights">
+        <article className="panel highlight-card">
+          <p className="stat-label">Coverage</p>
+          <p className="stat-value">{areas.length}</p>
+          <p className="home-highlight-text">Cab areas currently available</p>
+        </article>
+        <article className="panel highlight-card">
+          <p className="stat-label">Source</p>
+          <p className="home-highlight-text">
+            {isUsingLiveAreas ? 'Live data from admin configuration' : 'Fallback demo areas'}
+          </p>
+        </article>
+      </section>
       <AreaList areas={areas} />
     </main>
   )
