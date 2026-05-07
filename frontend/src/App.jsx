@@ -16,7 +16,7 @@ function App() {
 
   return (
     <>
-      {!isAuthRoute && <Navbar />}
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
