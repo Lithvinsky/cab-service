@@ -28,6 +28,7 @@ const SignupPage = () => {
             title="Create Account"
             subtitle="Join CabConnect to request office rides in seconds."
             buttonText="Create Account"
+            includeName
             onSubmit={handleSignup}
             footer={
               <p>

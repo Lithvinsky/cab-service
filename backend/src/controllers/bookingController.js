@@ -26,7 +26,15 @@ const createBooking = async (req, res) => {
 
 const getUserBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ userId: req.params.id }).sort({ createdAt: -1 })
+    const requestedUserId = String(req.params.id)
+    const authenticatedUserId = String(req.user?.id ?? '')
+    const isAdmin = req.user?.role === 'admin'
+
+    if (!isAdmin && requestedUserId !== authenticatedUserId) {
+      return res.status(403).json({ message: 'Forbidden' })
+    }
+
+    const bookings = await Booking.find({ userId: requestedUserId }).sort({ createdAt: -1 })
     return res.json(bookings)
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch bookings' })

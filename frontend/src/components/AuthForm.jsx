@@ -6,7 +6,7 @@ const initialState = {
   password: '',
 }
 
-const AuthForm = ({ title, subtitle, buttonText, onSubmit, footer }) => {
+const AuthForm = ({ title, subtitle, buttonText, onSubmit, footer, includeName = false }) => {
   const [formData, setFormData] = useState(initialState)
   const [error, setError] = useState('')
 
@@ -18,7 +18,7 @@ const AuthForm = ({ title, subtitle, buttonText, onSubmit, footer }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setError('')
-    if (!formData.email || !formData.password || (title === 'Signup' && !formData.name)) {
+    if (!formData.email || !formData.password || (includeName && !formData.name.trim())) {
       setError('Please fill all required fields.')
       return
     }
@@ -43,7 +43,7 @@ const AuthForm = ({ title, subtitle, buttonText, onSubmit, footer }) => {
         <h2>{title}</h2>
         {subtitle && <p className="auth-subtitle">{subtitle}</p>}
       </div>
-      {title === 'Signup' && (
+      {includeName && (
         <label>
           Full Name
           <input

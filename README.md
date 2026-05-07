@@ -63,6 +63,12 @@ npm install
 npm run dev
 ```
 
+PowerShell equivalent for the env file copy:
+
+```powershell
+Copy-Item .\backend\.env.example .\backend\.env
+```
+
 This starts **Express on port 5000** and **Vite on 5173** together. Open **`http://localhost:5173`**.
 
 ### Manual: two terminals
@@ -98,6 +104,11 @@ Open **`http://localhost:5173`**. In dev, the browser calls **`/api` on Vite**, 
 5. Restart **`backend`** after editing **`JWT_SECRET`** or **`MONGODB_URI`**.
 
 Default frontend URL: `http://localhost:5173`
+
+## Notes
+
+- `server/` and `client/` contain older TypeScript experiments and are not required for the CabConnect flow documented above.
+- The active app path is `frontend/` + `backend/`.
 
 ## Screenshots
 
